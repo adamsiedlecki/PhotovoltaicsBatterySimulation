@@ -2,22 +2,28 @@ package simulation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pojo.BatteryState;
 import pojo.HardwareParams;
 import tools.CalcSunriseSunset;
+import tools.ChartCreator;
 import tools.DecimalTimeToMinutes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Simulation {
 
     private final Logger log = LoggerFactory.getLogger(Simulation.class);
     private final DecimalTimeToMinutes timeToMinutes;
     private final DateTimeFormatter formatter;
+    private final List<BatteryState> batteryHistory;
 
     public Simulation() {
         this.timeToMinutes = new DecimalTimeToMinutes();
         this.formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        batteryHistory = new ArrayList<>();
     }
 
     public int getNumberOfDaysOnBatteryStartingBy(int year, int month, int day, HardwareParams hp, int timezone, double latitude, double longitude) {
@@ -29,6 +35,7 @@ public class Simulation {
         log.info("Starting simulation with full battery on " + formatter.format(startTime));
 
         int dayCounter = 0;
+        int hourCounter = 0;
         double batteryWh = hp.getBatteryWh();
         double batteryChargingPower = hp.getBatteryChargingPower();
         double minerPowerConsumption = hp.getMinerPowerConsumption();
@@ -45,6 +52,10 @@ public class Simulation {
                 }
                 lightSeconds--;
                 endTime = endTime.plusSeconds(1);
+                if (((long) lightSeconds % (60 * 60)) == 0) {
+                    hourCounter++;
+                    batteryHistory.add(new BatteryState(hourCounter, batteryWh));
+                }
 
             }
             //System.out.println("Sunset: "+sunset+" time: "+formatter.format(endTime));
@@ -57,6 +68,10 @@ public class Simulation {
                 }
                 darkSeconds--;
                 endTime = endTime.plusSeconds(1);
+                if (((long) darkSeconds % (60 * 60)) == 0) {
+                    hourCounter++;
+                    batteryHistory.add(new BatteryState(hourCounter, batteryWh));
+                }
 
             }
 
@@ -65,6 +80,8 @@ public class Simulation {
 
         log.info("Start time: " + formatter.format(startTime) + " | end time: " + formatter.format(endTime));
         log.info("Total days: " + dayCounter);
+        ChartCreator chartCreator = new ChartCreator();
+        chartCreator.createChart(batteryHistory);
         return dayCounter;
     }
 
