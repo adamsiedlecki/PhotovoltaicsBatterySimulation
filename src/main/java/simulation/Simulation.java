@@ -81,7 +81,7 @@ public class Simulation {
         log.info("Start time: " + formatter.format(startTime) + " | end time: " + formatter.format(endTime));
         log.info("Total days: " + dayCounter);
         ChartCreator chartCreator = new ChartCreator();
-        chartCreator.createChart(batteryHistory);
+        chartCreator.createChart(batteryHistory, formatter.format(startTime), hp);
         return dayCounter;
     }
 

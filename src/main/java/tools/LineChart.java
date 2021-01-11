@@ -8,11 +8,11 @@ import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import pojo.BatteryState;
+import pojo.HardwareParams;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,9 +22,13 @@ import java.util.List;
 public class LineChart extends JFrame {
 
     private final List<BatteryState> batteryStateList;
+    private final String startDate;
+    private final HardwareParams hardwareParams;
 
-    public LineChart(List<BatteryState> batteryStateList) {
+    public LineChart(List<BatteryState> batteryStateList, String startDate, HardwareParams hardwareParams) {
         this.batteryStateList = batteryStateList;
+        this.startDate = startDate;
+        this.hardwareParams = hardwareParams;
         initUI();
     }
 
@@ -60,9 +64,10 @@ public class LineChart extends JFrame {
     private JFreeChart createChart(XYDataset dataset) {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Battery state chart",
+                "Battery state chart starting by " + startDate + ", power consumption: " + hardwareParams.getMinerPowerConsumption()
+                        + "W, panels power prod: " + hardwareParams.getPanelsPowerProduction() + "W",
                 "Hour of work",
-                "State (Wh)",
+                "State (Wh) - max is " + hardwareParams.getBatteryWh() + "Wh",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
@@ -86,11 +91,6 @@ public class LineChart extends JFrame {
         plot.setDomainGridlinePaint(Color.BLACK);
 
         chart.getLegend().setFrame(BlockBorder.NONE);
-
-        chart.setTitle(new TextTitle("Battery state ",
-                        new Font("Serif", java.awt.Font.BOLD, 18)
-                )
-        );
 
         return chart;
     }
