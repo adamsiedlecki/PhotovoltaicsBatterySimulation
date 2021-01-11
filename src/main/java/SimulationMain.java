@@ -11,7 +11,7 @@ public class SimulationMain {
         log.error("Starting app");
 
         Simulation simulation = new Simulation();
-        simulation.getNumberOfDaysOnBatteryStartingBy(2021, 11, 5, new HardwareParams(), 1, 52, 21);
+        simulation.getNumberOfDaysOnBatteryStartingBy(2021, 2, 13, new HardwareParams(), 1, 52, 21);
 
     }
 
