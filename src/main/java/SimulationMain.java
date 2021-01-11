@@ -2,7 +2,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pojo.HardwareParams;
 import simulation.Simulation;
-import tools.DecimalTimeToMinutes;
 
 public class SimulationMain {
 
