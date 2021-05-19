@@ -64,8 +64,8 @@ public class LineChart extends JFrame {
     private JFreeChart createChart(XYDataset dataset) {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Battery state chart starting by " + startDate + ", power consumption: " + hardwareParams.getMinerPowerConsumption()
-                        + "W, panels power prod: " + hardwareParams.getPanelsPowerProduction() + "W",
+                "Battery state chart starting by " + startDate + ", power consumption: " + hardwareParams.getPowerConsumptionWatts()
+                        + "W, panels power prod: " + hardwareParams.getPanelsPowerProductionWatts() + "W",
                 "Hour of work",
                 "State (Wh) - max is " + hardwareParams.getBatteryWh() + "Wh",
                 dataset,

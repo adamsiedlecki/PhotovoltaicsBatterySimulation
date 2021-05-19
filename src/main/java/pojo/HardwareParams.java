@@ -2,34 +2,34 @@ package pojo;
 
 public class HardwareParams {
 
-    private double batteryCapacity; // Ah
-    private double batteryVoltage;
-    private double batteryWh;
-    private double minerPowerConsumption; // W
-    private double panelsPowerProduction; // W
-    private double batteryChargingPower;
+    private final double batteryCapacityAh; // Ah
+    private final double batteryVoltage;
+    private final double batteryWh;
+    private final double powerConsumptionWatts; // W
+    private final double panelsPowerProductionWatts; // W
+    private final double batteryChargingPower;
 
     // my default values
     public HardwareParams() {
-        this.batteryCapacity = 600;
+        this.batteryCapacityAh = 600;
         this.batteryVoltage = 24;
-        this.batteryWh = batteryCapacity * batteryVoltage;
-        this.minerPowerConsumption = 600;
-        this.panelsPowerProduction = 1400;
-        this.batteryChargingPower = panelsPowerProduction - minerPowerConsumption;
+        this.batteryWh = batteryCapacityAh * batteryVoltage;
+        this.powerConsumptionWatts = 600;
+        this.panelsPowerProductionWatts = 1400;
+        this.batteryChargingPower = panelsPowerProductionWatts - powerConsumptionWatts;
     }
 
-    public HardwareParams(float batteryCapacity, float batteryVoltage, float minerPowerConsumption, float panelsPowerProduction) {
-        this.batteryCapacity = batteryCapacity;
+    public HardwareParams(double batteryCapacityAh, double batteryVoltage, double powerConsumptionWatts, double panelsPowerProductionWatts) {
+        this.batteryCapacityAh = batteryCapacityAh;
         this.batteryVoltage = batteryVoltage;
-        this.batteryWh = batteryCapacity * batteryVoltage;
-        this.minerPowerConsumption = minerPowerConsumption;
-        this.panelsPowerProduction = panelsPowerProduction;
-        this.batteryChargingPower = panelsPowerProduction - minerPowerConsumption;
+        this.batteryWh = batteryCapacityAh * batteryVoltage;
+        this.powerConsumptionWatts = powerConsumptionWatts;
+        this.panelsPowerProductionWatts = panelsPowerProductionWatts;
+        this.batteryChargingPower = panelsPowerProductionWatts - powerConsumptionWatts;
     }
 
-    public double getBatteryCapacity() {
-        return batteryCapacity;
+    public double getBatteryCapacityAh() {
+        return batteryCapacityAh;
     }
 
     public double getBatteryVoltage() {
@@ -40,15 +40,54 @@ public class HardwareParams {
         return batteryWh;
     }
 
-    public double getMinerPowerConsumption() {
-        return minerPowerConsumption;
+    public double getPowerConsumptionWatts() {
+        return powerConsumptionWatts;
     }
 
-    public double getPanelsPowerProduction() {
-        return panelsPowerProduction;
+    public double getPanelsPowerProductionWatts() {
+        return panelsPowerProductionWatts;
     }
 
     public double getBatteryChargingPower() {
         return batteryChargingPower;
+    }
+
+
+    public static final class HardwareParamsBuilder {
+        private double batteryCapacityAh; // Ah
+        private double batteryVoltage;
+        private double powerConsumptionWatts; // W
+        private double panelsPowerProductionWatts; // W
+
+        private HardwareParamsBuilder() {
+        }
+
+        public static HardwareParamsBuilder aHardwareParams() {
+            return new HardwareParamsBuilder();
+        }
+
+        public HardwareParamsBuilder withBatteryCapacityAh(double batteryCapacityAh) {
+            this.batteryCapacityAh = batteryCapacityAh;
+            return this;
+        }
+
+        public HardwareParamsBuilder withBatteryVoltage(double batteryVoltage) {
+            this.batteryVoltage = batteryVoltage;
+            return this;
+        }
+
+        public HardwareParamsBuilder withPowerConsumptionWatts(double powerConsumptionWatts) {
+            this.powerConsumptionWatts = powerConsumptionWatts;
+            return this;
+        }
+
+        public HardwareParamsBuilder withPanelsPowerProductionWatts(double panelsPowerProductionWatts) {
+            this.panelsPowerProductionWatts = panelsPowerProductionWatts;
+            return this;
+        }
+
+        public HardwareParams build() {
+            return new HardwareParams(this.batteryCapacityAh, this.batteryVoltage, this.powerConsumptionWatts, this.panelsPowerProductionWatts);
+        }
     }
 }

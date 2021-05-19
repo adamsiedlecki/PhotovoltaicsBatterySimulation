@@ -38,7 +38,7 @@ public class Simulation {
         int hourCounter = 0;
         double batteryWh = hp.getBatteryWh();
         double batteryChargingPower = hp.getBatteryChargingPower();
-        double minerPowerConsumption = hp.getMinerPowerConsumption();
+        double minerPowerConsumption = hp.getPowerConsumptionWatts();
 
         while (batteryWh > 0) {
             double darkSeconds = calcDarkSeconds(calcSunriseSunset, endTime);
