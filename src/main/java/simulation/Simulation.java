@@ -44,7 +44,7 @@ public class Simulation {
             double darkSeconds = calcDarkSeconds(calcSunriseSunset, endTime);
             double lightSeconds = calcLightSeconds(calcSunriseSunset, endTime);
 
-            // minutes of day
+            // seconds of day
             while (lightSeconds > 0) {
                 batteryWh = batteryWh + (1 / 60d / 60d) * batteryChargingPower;
                 if (batteryWh > hp.getBatteryWh()) {
@@ -60,7 +60,7 @@ public class Simulation {
             }
             //System.out.println("Sunset: "+sunset+" time: "+formatter.format(endTime));
 
-            // minutes of night
+            // seconds of night
             while (darkSeconds > 0) {
                 batteryWh = batteryWh - (1 / 60d / 60d) * minerPowerConsumption;
                 if (batteryWh <= 0) {
